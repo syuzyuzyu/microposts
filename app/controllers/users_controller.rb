@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user, only: [:followings]
+  
   def show # 追加
     @user = User.find(params[:id])
     @microposts = @user.microposts.order(created_at: :desc)
@@ -18,6 +20,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def followings
+    @users = current_user.following_users.order(created_at: :desc)
+  end
+  
+  def followers
+    @users = current_user.follower_users.order(created_at: :desc)
+  end
+  
   private
 
   def user_params
