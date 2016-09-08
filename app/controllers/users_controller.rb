@@ -38,7 +38,6 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params) 
       redirect_to @user
     else
-      flash[:danger] = 'invalid user'
       render 'edit'
     end
   end
