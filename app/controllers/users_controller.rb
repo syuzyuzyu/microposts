@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user, only: [:edit]
+  
   def show # 追加
    @user = User.find(params[:id])
   end
@@ -18,19 +20,16 @@ class UsersController < ApplicationController
   end
 
   def edit
-    unless logged_in?
-      redirect_to root_path
-    else
-      @user = User.find(params[:id])
-    end
+    redirect_to root_path, :flash => {alert => "Don't edit other user!"} if !myself?
+    @user = User.find(params[:id])
   end
   
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(user_params)
-      # 更新に成功したときの処理
+    if @user.update_attributes(user_params) 
       redirect_to @user
     else
+      flash[:danger] = 'invalid user'
       render 'edit'
     end
   end
@@ -38,8 +37,13 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password,
-                                 :password_confirmation)
+    params.require(:user).permit(:name, :email, :profile, :place, 
+                  :password, :password_confirmation)
+  end
+  
+  def myself?
+    @current_user = current_user
+    @current_user.id.to_s == params[:id]
   end
 end
 
