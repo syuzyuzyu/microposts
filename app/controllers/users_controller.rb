@@ -21,12 +21,14 @@ class UsersController < ApplicationController
     end
   end
 
-  def followings
-    @users = current_user.following_users.order(created_at: :desc)
+  def following
+    @access_user = User.find(params[:user_id])
+    @users = @access_user.following_users.order(created_at: :desc)
   end
   
   def followers
-    @users = current_user.follower_users.order(created_at: :desc)
+    @access_user = User.find(params[:user_id])
+    @users = @access_user.follower_users.order(created_at: :desc)
   end
 
   def edit

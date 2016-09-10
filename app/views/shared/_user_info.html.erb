@@ -1,8 +1,9 @@
-<%= link_to gravatar_for(current_user, size: 50), current_user %>
-<h1><%= current_user.name %></h1>
-<span><%= link_to "view my profile", current_user %></span>
+<% @access_user = current_user if @access_user.nil? %>
+<%= link_to gravatar_for(@access_user, size: 50), current_user %>
+<h1><%= @access_user.name %></h1>
+<span><%= link_to "view my profile", @access_user %></span>
 <span>
-    <%= link_to "follow", following_path %>&nbsp;
-    <%= link_to "follower", followers_path %>
+    <%= link_to "follow", user_following_path(@access_user.id) %>&nbsp;
+    <%= link_to "follower", user_followers_path(@access_user.id) %>
 </span>
-<span><%= pluralize(current_user.microposts.count, "micropost") %></span>
+<span><%= pluralize(@access_user.microposts.count, "micropost") %></span>

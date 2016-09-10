@@ -6,8 +6,8 @@
         <%= @user.name %>
       </h1>
       <span>
-        <%= link_to "follow", following_path %>&nbsp;
-        <%= link_to "follower", followers_path %>
+        <%= link_to "follow", user_following_path(@user.id) %>&nbsp;
+        <%= link_to "follower", user_followers_path(@user.id) %>
       </span>
       <dl>
         <dt>メールアドレス</dt><dd><%= @user.email %></dd>
