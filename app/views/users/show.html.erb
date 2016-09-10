@@ -13,7 +13,7 @@
         <dt>メールアドレス</dt><dd><%= @user.email %></dd>
         <dt>プロフィール</dt><dd><%= @user.profile %></dd>
         <dt>場所</dt><dd><%= @user.place %></dd>
-        <dt>投稿数</dt><dd><%= pluralize(current_user.microposts.count, "micropost") %></dd>
+        <dt>投稿数</dt><dd><%= pluralize(@user.microposts.count, "micropost") %></dd>
       </dl>
     </section>
   </aside>

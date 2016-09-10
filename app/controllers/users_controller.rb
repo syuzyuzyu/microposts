@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:followings, :edit]
+  before_action :logged_in_user, only: [:followings, :followers, :edit]
+  before_action :auth_user, only: [:edit, :update]
   
   def show # 追加
     @user = User.find(params[:id])
@@ -29,7 +30,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    redirect_to root_path, :flash => {alert => "Don't edit other user!"} if !myself?
     @user = User.find(params[:id])
   end
   
@@ -49,9 +49,9 @@ class UsersController < ApplicationController
                   :password, :password_confirmation)
   end
   
-  def myself?
-    @current_user = current_user
-    @current_user.id.to_s == params[:id]
+  def auth_user
+    @user = User.find(params[:id])
+    redirect_to root_url unless @user == current_user
   end
 end
 
